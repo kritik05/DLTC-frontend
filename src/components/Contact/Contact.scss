@@ -1,0 +1,97 @@
+@import "../../css-config/mixins.scss";
+.contact{
+    width: 100%;
+    height: 100vh;
+    background-color:#192a4ef5 ;
+    margin: 0 auto;
+    .contact-content{
+        display: flex;
+        flex-flow: wrap;
+        padding: 50px 20px;
+        @include md {
+            justify-content: center;
+            padding: 50px 0;
+        }
+       .info{
+        max-width: 700px;
+        background-color:  #f1f1f1;
+        padding-left: 30px;
+        padding-top: 30px;
+        padding-right: 60px;
+        @include md {
+            padding-left: 60px;
+        }
+        .content{
+            display: flex;
+            flex-direction: column;
+        .c-item {
+            .title{
+            font-size: 17px;
+            }
+            .text{
+             font-size: 14px;
+             color: rgb(128, 128, 128);
+            }
+            display: flex;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 0.5px dotted black;
+            svg {
+                flex-shrink: 0;
+                font-size: 25px;
+                margin-right: 40px;
+                margin-top: 7px;
+            }
+        }
+       }
+    }
+    .c-form{
+        width: 600px;
+        background-color:#dcdcdc;
+        padding: 30px 30px 30px 30px;
+        input{
+            color: #f0f0f0;
+            @include md{
+            height: 35px;
+            }
+        }
+        textarea{
+            color: #f0f0f0;
+            @include md{
+                height: 170px;
+            }
+        }
+        input::placeholder{
+            font-size: 14px;
+            @include md{
+                font-size: 17px;
+            }
+        }
+        button{
+            padding: 10px;
+            border-radius: 4px;
+            // background-color:#268b3c;
+            background-color:#1a264d;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 0 3px 1px grey;
+            color: white;
+        }
+        .fn{
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            // background-color:  rgba(255, 255, 255, 0.746);
+            outline: 0;
+            border-width: 0 0 2px;
+            border-color: rgba(255, 255, 255, 0.424);
+            @include md{
+                padding: 25px;
+                margin-bottom: 30px;
+                font-size: 17px;
+            }
+        }
+    }
+    }
+    
+}

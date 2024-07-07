@@ -1,0 +1,142 @@
+@import "../../css-config/mixins.scss";
+
+.main-header {
+    width: 100%;
+    padding: 0 20px;
+    z-index: 99;
+    background-color: #0e152d;
+    color: white;
+    border-bottom: 1px solid;
+    border-color: rgba(0, 0, 0, 0.1);
+    @include md {
+        padding: 0 40px;
+    }
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+        max-width: 1400px;
+        margin: 0 auto;
+        @include md {
+            height: 80px;
+
+        }
+    }
+    .left {
+        font-size: 22px;
+        font-weight: 100;
+        cursor: pointer;
+        @include md {
+            font-size: 25px;
+            margin-left: 30px;
+        }
+        display: flex;
+        .logo {
+            img {
+                height: 35px;
+                width: 30px;
+                margin-top: 8px;
+                @include md {
+                    height: 60px;
+                    width: 60px;
+                }
+            }
+            @include md {
+                margin-right: 10px;
+            }
+        }
+        .title {
+            margin-top: 5px;
+            margin-left: 8px;
+            @include md {
+                margin-top: 20px;
+            }
+        }
+    }
+    .center {
+        list-style-type: none;
+        display: none;
+        gap: 40px;
+        @include md {
+            display: flex;
+            position: relative;
+        }
+        li {
+            font-size: 16px;
+            font-weight: 100;
+            text-transform: uppercase;
+            cursor: pointer;
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+    }
+    .right {
+        display: flex;
+        svg {
+            font-size: 20px;
+            cursor: pointer;
+            @include md {
+                font-size: 24px;
+            }
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+        .menu-icon {
+            display: block;
+            margin-left: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            @include md {
+                display: none;
+            }
+        }
+    }
+    .side-menu {
+        position: fixed;
+        top: 0;
+        right: 0; // Changed to right
+        width: 180px; // Reduced width
+        height: 50%;
+        background-color: #0e152d;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); // Changed shadow direction
+        z-index: 100;
+        .menu-icon_{
+            padding-top: 15px;
+            margin-left: 140px;
+            font-size: 24px;
+        }
+        ul {
+            padding-top: 100px;
+            list-style-type: none;
+            padding: 0;
+            li {
+                padding: 15px 20px;
+                cursor: pointer;
+                color: white;
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
+            }
+        }
+    }
+    &.sticky-header {
+        background-color: #0e152d;
+        color: white;
+        position: sticky;
+        top: 0;
+        transform: translateY(-60px);
+        animation: StickyHeader 0.3s ease forwards;
+    }
+}
+
+@keyframes StickyHeader {
+    0% {
+        transform: translateY(-60px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

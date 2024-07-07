@@ -1,0 +1,9 @@
+@import "../../../css-config/mixins.scss";
+.sliderStyle{
+    margin-top: 20px;
+    .sliderimg{
+        width: 100%;
+        height:70vh;
+        object-fit: cover
+    }
+}
