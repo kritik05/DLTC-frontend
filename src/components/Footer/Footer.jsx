@@ -5,7 +5,6 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 import { auth } from '../../firebase';
 import "./Footer.scss";
 
-// const mail = process.env.REACT_APP_emailjs_token;
 const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 const templateKey=process.env.REACT_APP_EMAILJS_TEMPLATE_ID_I;
 const serviceKey=process.env.REACT_APP_EMAILJS_SERVICE_ID;
@@ -20,14 +19,12 @@ const Footer = () => {
         e.preventDefault();
         emailjs.sendForm(serviceKey, templateKey, form.current, publicKey)
             .then((result) => {
-                console.log(result.text);
                 setName('');
                 setPhone('');
                 setEmail('');
                 setMessage('');
                 window.alert("Message sent successfully");
             }, (error) => {
-                console.log(error.text);
                 window.alert("Failed to send message. Please try again.");
             });
     };
@@ -35,29 +32,30 @@ const Footer = () => {
     const handleSubscribe = async (e) => {
         e.preventDefault();
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, 'defaultPassword123');
-            const user = userCredential.user;
-            await sendEmailVerification(user);
-            window.alert("A verification email has been sent. Please verify your email before sending the message.");
+            const currentUser = auth.currentUser;
+    
+            if (currentUser && currentUser.emailVerified) {
+                sendEmail(new Event('submit'));
+            } else {
 
-            // Set an interval to check email verification status
-            const checkEmailVerification = setInterval(async () => {
-                const currentUser = auth.currentUser;
-                if (currentUser) {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, 'defaultPassword123');
+                const user = userCredential.user;
+                await sendEmailVerification(user);
+                window.alert("A verification email has been sent. Please verify your email before sending the message.");
+    
+                const checkEmailVerification = setInterval(async () => {
                     await currentUser.reload();
                     if (currentUser.emailVerified) {
                         clearInterval(checkEmailVerification);
-                        sendEmail(new Event('submit')); // Trigger the sendEmail function
+                        sendEmail(new Event('submit'));
                     }
-                }
-            }, 2000); // Check every 2 seconds
-
+                }, 2000); 
+            }
         } catch (error) {
-            console.error("Error subscribing:", error.message);
             window.alert("Error subscribing. Please try again.");
         }
     };
-
+    
     const openInNewTab = (url) => {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
@@ -82,7 +80,6 @@ const Footer = () => {
                     <div className="c-item">
                         <FaMobileAlt />
                         <a className="text" style={{textDecoration: "none"}} href="tel:+919254291091">Phone: +91 9254291091</a>
-                        {/* <a class="header__phone-num" href="tel:+19253196091" data-wpel-link="internal" className="text">(925) 319-6091</a> */}
                     </div>
                     <div className="c-item">
                         <FaEnvelope />

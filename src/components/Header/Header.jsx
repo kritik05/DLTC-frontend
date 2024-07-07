@@ -76,11 +76,11 @@ const Header = () => {
         window.scrollTo({
             top: 0,
             left: 0,
-            behavior: "instant", // Scroll to top instantly
+            behavior: "instant", 
         });
         setTimeout(() => {
             setSideMenuOpen(!sideMenuOpen);
-        }, 0); // Open side menu immediately after scrolling to top
+        }, 0); 
     };
 
     return (

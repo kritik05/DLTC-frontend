@@ -9,8 +9,7 @@ const useFetch = (endpoint) => {
             const res = await fetchDataFromApi(endpoint);
             setData(res);
         } catch (error) {
-            console.error("Error fetching data:", error);
-            setData(null); // Handle error case gracefully
+            setData(null); 
         }
     }, [endpoint]);
 

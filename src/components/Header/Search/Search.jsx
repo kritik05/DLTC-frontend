@@ -1,22 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import "./Search.scss";
 import useFetch from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};
+
 const Search = ({ setSearchModal }) => {
     const [query, setQuery] = useState("");
+    const inputRef = useRef(query);
     const navigate = useNavigate();
+    const debouncedQuery = useDebounce(query, 500); 
 
     const onChange = (e) => {
-        setQuery(e.target.value);
+        inputRef.current = e.target.value;
+        setQuery(inputRef.current);
     };
 
     let { data } = useFetch(
-        `/api/products?populate=*&filters[title][$contains]=${query}`
+        `/api/products?populate=*&filters[title][$contains]=${debouncedQuery}`
     );
 
-    if (!query.length) {
+    if (!debouncedQuery.length) {
         data = null;
     }
 
@@ -27,7 +46,7 @@ const Search = ({ setSearchModal }) => {
                     autoFocus
                     type="text"
                     placeholder="Search for products"
-                    value={query}
+                    defaultValue={query}
                     onChange={onChange}
                 />
                 <MdClose

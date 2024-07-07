@@ -22,39 +22,36 @@ const Newsletter = () => {
         e.preventDefault();
         emailjs.sendForm(serviceKey, templateKey, form.current, publicKey)
             .then((result) => {
-                console.log(result.text);
             }, (error) => {
-                console.log(error.text);
             });
         window.alert("Message sent successfully");
     };
-
     const handleSubscribe = async (e) => {
         e.preventDefault();
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, 'defaultPassword123');
-            const user = userCredential.user;
-            await sendEmailVerification(user);
-            window.alert("A verification email has been sent. Please verify your email before subscribing.");
-
-
-            const checkEmailVerification = setInterval(async () => {
-                const currentUser = auth.currentUser;
-                if (currentUser) {
+            const currentUser = auth.currentUser;
+    
+            if (currentUser && currentUser.emailVerified) {
+                sendEmail(new Event('submit'));
+            } else {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, 'defaultPassword123');
+                const user = userCredential.user;
+                await sendEmailVerification(user);
+                window.alert("A verification email has been sent. Please verify your email before subscribing.");
+    
+                const checkEmailVerification = setInterval(async () => {
                     await currentUser.reload();
                     if (currentUser.emailVerified) {
                         clearInterval(checkEmailVerification);
-                        sendEmail(new Event('submit')); 
+                        sendEmail(new Event('submit'));
                     }
-                }
-            }, 2000); 
-
+                }, 2000);
+            }
         } catch (error) {
-            console.error("Error subscribing:", error.message);
             window.alert("Error subscribing. Please try again.");
         }
     };
-
+    
     return (
         <div className="newsletter-section">
             <div className="newsletter-content">
