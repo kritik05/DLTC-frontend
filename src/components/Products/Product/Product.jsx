@@ -14,6 +14,7 @@ const Product = ({ data, id }) => {
                     src={
                         data.img.data[0].attributes.url
                     }
+                    alt="loading"
                 />
              </div>
             <div className="prod-details">

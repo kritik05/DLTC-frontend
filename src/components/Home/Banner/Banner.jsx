@@ -10,9 +10,9 @@ const Banner = () => {
     return (
     <div className="sliderStyle">
          <AliceCarousel autoPlay autoPlayInterval={2000} disableButtonsControls infinite disableDotsControls>
-        <img src={image1} className="sliderimg"/>
-        <img src={image3} className="sliderimg"/>
-        <img src={image4} className="sliderimg"/>
+        <img src={image1} alt="home" className="sliderimg"/>
+        <img src={image3} alt="home" className="sliderimg"/>
+        <img src={image4} alt="home" className="sliderimg"/>
         </AliceCarousel>
     </div>
     );

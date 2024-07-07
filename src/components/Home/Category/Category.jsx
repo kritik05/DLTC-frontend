@@ -26,6 +26,7 @@ const Category = ({ categories ,headingText}) => {
                             src={
                                 item.attributes.img.data.attributes.url
                             }
+                            alt="category loading.."
                         />
                         </div>
                     </div>

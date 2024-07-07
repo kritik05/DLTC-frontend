@@ -1,17 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchDataFromApi } from "../utils/api";
+
 const useFetch = (endpoint) => {
     const [data, setData] = useState();
 
-    useEffect(() => {
-        makeApiCall();
+    const makeApiCall = useCallback(async () => {
+        try {
+            const res = await fetchDataFromApi(endpoint);
+            setData(res);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setData(null); // Handle error case gracefully
+        }
     }, [endpoint]);
 
-    const makeApiCall = async () => {
-        const res = await fetchDataFromApi(endpoint);
-        setData(res);
-    };
+    useEffect(() => {
+        makeApiCall();
+    }, [makeApiCall]);
 
     return { data };
 };
+
 export default useFetch;
