@@ -6,8 +6,9 @@ import { auth } from '../../firebase';
 import "./Footer.scss";
 
 const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
-const templateKey=process.env.REACT_APP_EMAILJS_TEMPLATE_ID_I;
-const serviceKey=process.env.REACT_APP_EMAILJS_SERVICE_ID;
+const templateKey = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_I;
+const serviceKey = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+
 const Footer = () => {
     const form = useRef();
     const [Name, setName] = useState('');
@@ -15,8 +16,7 @@ const Footer = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
-    const sendEmail = (e) => {
-        e.preventDefault();
+    const sendEmail = () => {
         emailjs.sendForm(serviceKey, templateKey, form.current, publicKey)
             .then((result) => {
                 setName('');
@@ -33,29 +33,30 @@ const Footer = () => {
         e.preventDefault();
         try {
             const currentUser = auth.currentUser;
-    
-            if (currentUser && currentUser.emailVerified) {
-                sendEmail(new Event('submit'));
-            } else {
 
+            if (currentUser && currentUser.emailVerified) {
+                // If email is verified, send the email directly
+                sendEmail();
+            } else {
+                // Create a new user and send verification email
                 const userCredential = await createUserWithEmailAndPassword(auth, email, 'defaultPassword123');
                 const user = userCredential.user;
                 await sendEmailVerification(user);
                 window.alert("A verification email has been sent. Please verify your email before sending the message.");
-    
+
                 const checkEmailVerification = setInterval(async () => {
-                    await currentUser.reload();
-                    if (currentUser.emailVerified) {
+                    await user.reload(); // Reload user to get updated email verification status
+                    if (user.emailVerified) {
                         clearInterval(checkEmailVerification);
-                        sendEmail(new Event('submit'));
+                        sendEmail(); // Send email after verification
                     }
-                }, 2000); 
+                }, 2000);
             }
         } catch (error) {
             window.alert("Error subscribing. Please try again.");
         }
     };
-    
+
     const openInNewTab = (url) => {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
@@ -66,7 +67,7 @@ const Footer = () => {
                 <div className="col">
                     <div className="title">About</div>
                     <div className="text">
-                        Started in 2001 Dhanluxmi Trading Company started its operation at Balasmand Road,Hisar offering fancy products related to gates, grills, shutters, house railings.
+                        Started in 2001 Dhanluxmi Trading Company started its operation at Balasmand Road, Hisar offering fancy products related to gates, grills, shutters, house railings.
                     </div>
                 </div>
                 <div className="col">
@@ -79,7 +80,7 @@ const Footer = () => {
                     </div>
                     <div className="c-item">
                         <FaMobileAlt />
-                        <a className="text" style={{textDecoration: "none"}} href="tel:+919254291091">Phone: +91 9254291091</a>
+                        <a className="text" style={{ textDecoration: "none" }} href="tel:+919254291091">Phone: +91 9254291091</a>
                     </div>
                     <div className="c-item">
                         <FaEnvelope />
